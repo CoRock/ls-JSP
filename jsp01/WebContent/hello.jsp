@@ -29,7 +29,7 @@ out.println(str + "<br>");
 out.println(application.getRealPath("/") + "<br>");
 %>
 
-<%= putStr("hello jsp!") %>
+<%= putStr("hello, jsp!") %>
 
 </body>
 </html>
