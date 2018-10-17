@@ -32,7 +32,7 @@ public class BookDAO {
 		ResultSet rs = null;						// 결과셋 처리 객체
 		
 		try {
-			conn = DB.dbConn();			// return database connection
+			conn = DB.getConn();			// return database connection
 			String sql = "select * from book";
 			// SQL 실행 객체 생성
 			pstmt = conn.prepareStatement(sql);

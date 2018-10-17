@@ -8,7 +8,7 @@ import javax.sql.DataSource;
 
 public class DB {
 	
-	public static Connection dbConn() {
+	public static Connection getConn() {
 		// context.xml에 설정된 dbcp에서 커넥션을 가져옴
 		DataSource ds = null;		// javax.sql
 		Connection conn = null;
