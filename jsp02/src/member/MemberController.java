@@ -39,12 +39,14 @@ public class MemberController extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher(page);
 			rd.forward(request, response);		// 포워딩
 			
-		} else if (url.indexOf("join.do") != -1) {
+		} else if (url.indexOf("join.do") != -1) {			
 			String userid = request.getParameter("userid");
 			String passwd = request.getParameter("passwd");
 			String name = request.getParameter("name");
 			String email = request.getParameter("email");
 			String hp = request.getParameter("hp");
+			
+			// System.out.println("join.do: " + userid + ", " + passwd + ", " + name);
 			
 			MemberDTO dto = new MemberDTO();
 			dto.setUserid(userid);
