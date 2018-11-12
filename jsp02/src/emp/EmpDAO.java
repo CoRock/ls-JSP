@@ -8,6 +8,52 @@ import config.DB;
 
 public class EmpDAO {
 
+	public void insert_batch() {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = DB.getConn();
+			// 오토 커밋 옵션을 해제
+			conn.setAutoCommit(false);
+			
+			String sql = "insert into emp2 (empno, ename, deptno) values (?, ?, ?)";
+			pstmt = conn.prepareStatement(sql);
+			long before = System.currentTimeMillis();
+			
+			for (int i = 100001; i <= 200000; i++) {
+				pstmt.setInt(1, i);
+				pstmt.setString(2, "kim" + i);
+				pstmt.setInt(3, i);
+				pstmt.addBatch();			// 일괄처리작업 예약
+			}
+			pstmt.executeBatch();			// 일괄처리작업 실행
+			conn.commit();					// 수동 커밋
+			conn.setAutoCommit(true);	// 오토 커밋으로 전환	
+			
+			long after = System.currentTimeMillis();			
+			System.out.println("실행시간: " + (after - before));
+		} catch (Exception e) {
+			e.printStackTrace();
+			try {
+				if (conn != null) conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			} finally {
+				try {
+					if (pstmt != null) pstmt.close();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				try {
+					if (conn != null) conn.close();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		}
+	}
+	
 	public void insert() {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -17,7 +63,7 @@ public class EmpDAO {
 			conn.setAutoCommit(false);	// auto commit 해제
 			
 			long before = System.currentTimeMillis();
-			for (int i = 1; i <= 10000; i++) {
+			for (int i = 1; i <= 100000; i++) {
 				String sql = "insert into emp2 (empno, ename, deptno) values (?, ?, ?)";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, i);

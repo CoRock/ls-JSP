@@ -13,7 +13,8 @@
 
 <%
 	EmpDAO dao = new EmpDAO();
-	dao.insert();
+	// dao.insert();
+	dao.insert_batch();
 %>
 
 </body>
