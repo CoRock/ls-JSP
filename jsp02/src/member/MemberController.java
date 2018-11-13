@@ -57,6 +57,24 @@ public class MemberController extends HttpServlet {
 			
 			dao.insert(dto);
 			
+		} else if (url.indexOf("join_oracle_secret.do") != -1) {
+			String userid = request.getParameter("userid");
+			String passwd = request.getParameter("passwd");
+			String name = request.getParameter("name");
+			String email = request.getParameter("email");
+			String hp = request.getParameter("hp");
+			
+			// System.out.println("join.do: " + userid + ", " + passwd + ", " + name);
+			
+			MemberDTO dto = new MemberDTO();
+			dto.setUserid(userid);
+			dto.setPasswd(passwd);
+			dto.setName(name);
+			dto.setEmail(email);
+			dto.setHp(hp);
+			
+			dao.insertCrypt(dto);
+			
 		} else if (url.indexOf("view.do") != -1) {
 			String userid = request.getParameter("userid");
 			// System.out.println("clicked id: " + userid);
@@ -92,6 +110,25 @@ public class MemberController extends HttpServlet {
 			dao.delete(userid);
 			// 페이지 이동
 			response.sendRedirect(context + "/ch06/member.jsp");
+			
+		} else if (url.indexOf("login.do") != -1) {
+			String userid = request.getParameter("userid");
+			String passwd = request.getParameter("passwd");
+			
+			System.out.println("아이디: " + userid);
+			System.out.println("패스워드: " + passwd);
+			
+			MemberDTO dto = new MemberDTO();
+			dto.setUserid(userid);
+			dto.setPasswd(passwd);
+			
+			String result = dao.loginCheck(dto);
+			System.out.println("result: " + result);
+			request.setAttribute("result", result);
+			
+			String page = "/ch06/login_result.jsp";
+			RequestDispatcher rd = request.getRequestDispatcher(page);
+			rd.forward(request, response);
 		}
 	}
 
